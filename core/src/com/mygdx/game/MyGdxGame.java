@@ -2,14 +2,17 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
 import com.mygdx.game.Screens.MainMenuScreen;
+import com.mygdx.game.Tools.ControlHandler;
 
 public class MyGdxGame extends Game {
 	@Override
 	public void create() {
 		setScreen(new MainMenuScreen(this));
+		Controllers.addListener(new ControlHandler());
 	}
 
 	@Override
