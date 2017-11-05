@@ -70,7 +70,6 @@ class MainMenuScreen(private val game: MyGdxGame) : Screen {
         stage.isDebugAll = true
         stage.act()
         stage.draw()
-
     }
 
     override fun resize(width: Int, height: Int) {

@@ -1,14 +1,13 @@
 package com.mygdx.game.Screens
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
-import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.Screen
 import com.mygdx.game.MyGdxGame
 import com.mygdx.game.Scenes.Scene
 import com.mygdx.game.Scenes.TDScene
 import com.mygdx.game.Scenes.TDScene1
 import com.mygdx.game.Tools.ContactHandler
+import com.mygdx.game.Tools.ControlHandler
 
 class GameScreen(private val game: MyGdxGame, private val save: Int) : Screen {
     lateinit var scene : Scene
@@ -26,14 +25,14 @@ class GameScreen(private val game: MyGdxGame, private val save: Int) : Screen {
         update()
         draw()
 
-        if (ContactHandler.location != "" && Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+        if (ControlHandler.useKeyJustPressed() && ContactHandler.location != "") {
             val newScene = scene.newScene
             scene.dispose()
             scene = newScene
             ContactHandler.location = ""
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+        if (ControlHandler.pauseKeyJustPressed()) {
             game.screen = MainMenuScreen(game)
         }
     }

@@ -20,20 +20,40 @@ public class ControlHandler implements ControllerListener {
 
     public static boolean gamepad = false;
 
-    public static Vector2 ctrl() {
+    private static boolean gamepadUseKeyJustPressed = false;
+    private static boolean gamepadPauseKeyJustPressed = false;
+
+    public static void update() {
         if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY) || x != Gdx.input.getX() || y != Gdx.input.getY())
             gamepad = false;
         x = Gdx.input.getX();
         y = Gdx.input.getY();
 
+        gamepadUseKeyJustPressed = false;
+        gamepadPauseKeyJustPressed = false;
+    }
+
+    public static Vector2 ctrl() {
         Vector2 ctrl = new Vector2();
         ctrl.add(keyControl());
         if (lStick.len() >= STICK_DEATH_ZONE)
             ctrl.add(lStick);
         if (ctrl.len2() > 1)
             ctrl.clamp(0f, 1f);
-
         return ctrl;
+    }
+
+    public static float dir() {
+        if (gamepad) {
+            if (rStick.len() >= STICK_DEATH_ZONE) {
+                angle = rStick.angleRad();
+            }
+            return angle;
+        }
+        else {
+            angle = new Vector2(Gdx.input.getX() - Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 - Gdx.input.getY()).angleRad();
+        }
+        return angle;
     }
 
     public static Vector2 keyControl() {
@@ -67,6 +87,12 @@ public class ControlHandler implements ControllerListener {
 
     @Override
     public boolean buttonUp(Controller controller, int buttonCode) {
+        if (buttonCode == 0) {
+            gamepadUseKeyJustPressed = true;
+        }
+        if (buttonCode == 7) {
+            gamepadPauseKeyJustPressed = true;
+        }
         return false;
     }
 
@@ -78,6 +104,7 @@ public class ControlHandler implements ControllerListener {
         if (axisCode == 0) {
             lStick.y = -value;
         }
+
         if (axisCode == 3) {
             rStick.x = value;
         }
@@ -110,16 +137,21 @@ public class ControlHandler implements ControllerListener {
         return false;
     }
 
-    public static float dir() {
+    public static boolean useKeyJustPressed() {
         if (gamepad) {
-            if (rStick.len() >= STICK_DEATH_ZONE) {
-                angle = rStick.angleRad();
-            }
-            return angle;
+            return gamepadUseKeyJustPressed;
         }
         else {
-            angle = new Vector2(Gdx.input.getX() - Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 - Gdx.input.getY()).angleRad();
+            return Gdx.input.isKeyJustPressed(Input.Keys.ENTER);
         }
-        return angle;
+    }
+
+    public static boolean pauseKeyJustPressed() {
+        if (gamepad) {
+            return gamepadPauseKeyJustPressed;
+        }
+        else {
+            return Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE);
+        }
     }
 }
