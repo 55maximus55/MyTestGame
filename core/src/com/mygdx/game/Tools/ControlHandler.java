@@ -9,28 +9,42 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class ControlHandler implements ControllerListener {
+    public static final float STICK_DEATH_ZONE = 0.25f;
+
     private static Vector2 lStick = new Vector2();
+
+    private static float angle = 0f;
     private static Vector2 rStick = new Vector2();
+    private static int x = Gdx.input.getX();
+    private static int y = Gdx.input.getY();
+
+    public static boolean gamepad = false;
 
     public static Vector2 ctrl() {
+        if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY) || x != Gdx.input.getX() || y != Gdx.input.getY())
+            gamepad = false;
+        x = Gdx.input.getX();
+        y = Gdx.input.getY();
+
         Vector2 ctrl = new Vector2();
         ctrl.add(keyControl());
-        if (lStick.len() > 0.25f)
+        if (lStick.len() >= STICK_DEATH_ZONE)
             ctrl.add(lStick);
         if (ctrl.len2() > 1)
             ctrl.clamp(0f, 1f);
+
         return ctrl;
     }
 
     public static Vector2 keyControl() {
         Vector2 ctrl = new Vector2();
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A))
             ctrl.add(-1f, 0f);
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D))
             ctrl.add(1f, 0f);
-        if (Gdx.input.isKeyPressed(Input.Keys.UP))
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W))
             ctrl.add(0f, 1f);
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S))
             ctrl.add(0f, -1f);
         return ctrl;
     }
@@ -47,6 +61,7 @@ public class ControlHandler implements ControllerListener {
 
     @Override
     public boolean buttonDown(Controller controller, int buttonCode) {
+        gamepad = true;
         return false;
     }
 
@@ -69,6 +84,9 @@ public class ControlHandler implements ControllerListener {
         if (axisCode == 2) {
             rStick.y = -value;
         }
+
+        if (lStick.len() >= STICK_DEATH_ZONE || rStick.len() >= STICK_DEATH_ZONE)
+            gamepad = true;
         return false;
     }
 
@@ -93,6 +111,15 @@ public class ControlHandler implements ControllerListener {
     }
 
     public static float dir() {
-        return rStick.angleRad();
+        if (gamepad) {
+            if (rStick.len() >= STICK_DEATH_ZONE) {
+                angle = rStick.angleRad();
+            }
+            return angle;
+        }
+        else {
+            angle = new Vector2(Gdx.input.getX() - Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 - Gdx.input.getY()).angleRad();
+        }
+        return angle;
     }
 }
