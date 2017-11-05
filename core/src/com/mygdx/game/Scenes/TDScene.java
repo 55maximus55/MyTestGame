@@ -142,8 +142,18 @@ public class TDScene extends Scene {
 
     @Override
     public Scene getNewScene() {
-        if (ContactHandler.location.equals("location topdown 128 128"))
+        if (ContactHandler.location.equals("location topdown1 128 128")) {
+            Preferences preferences = Gdx.app.getPreferences("Save" + save + "_" + "topdown1");
+            preferences.putFloat("playerX", 128f);
+            preferences.putFloat("playerY", 128f);
+            preferences.flush();
+
+            preferences = Gdx.app.getPreferences("Save" + save);
+            preferences.putString("scene", "topdown1");
+            preferences.flush();
+
             return new TDScene1(save, screen);
+        }
         return null;
     }
 }

@@ -2,6 +2,7 @@ package com.mygdx.game.Screens
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
+import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.Screen
 import com.mygdx.game.MyGdxGame
 import com.mygdx.game.Scenes.Scene
@@ -13,7 +14,12 @@ class GameScreen(private val game: MyGdxGame, private val save: Int) : Screen {
     lateinit var scene : Scene
 
     override fun show() {
-        scene = TDScene(save, this)
+        val preferences = Gdx.app.getPreferences("Save" + save)
+        val s = preferences.getString("scene", "topdown")
+        if (s == "topdown")
+            scene = TDScene(save, this)
+        else if (s == "topdown1")
+            scene = TDScene1(save, this)
     }
 
     override fun render(delta: Float) {
@@ -21,7 +27,7 @@ class GameScreen(private val game: MyGdxGame, private val save: Int) : Screen {
         draw()
 
         if (ContactHandler.location != "" && Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            val newScene = scene.getNewScene()
+            val newScene = scene.newScene
             scene.dispose()
             scene = newScene
             ContactHandler.location = ""

@@ -247,6 +247,6 @@
   <object id="49" x="0" y="320" height="224"/>
  </objectgroup>
  <objectgroup name="location">
-  <object id="56" name="location topdown 128 128" x="0" y="320" width="256" height="224"/>
+  <object id="56" name="location topdown1 128 128" x="0" y="320" width="256" height="224"/>
  </objectgroup>
 </map>

@@ -112,23 +112,19 @@ public class TDScene1 extends Scene {
         CircleShape shape = new CircleShape();
         FixtureDef fDef = new FixtureDef();
 
-        for (Object object : map.getLayers().get("player").getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+        bDef.type = BodyDef.BodyType.DynamicBody;
 
-            bDef.type = BodyDef.BodyType.DynamicBody;
+        bDef.position.x = preferences.getFloat("playerX");
+        bDef.position.y = preferences.getFloat("playerY");
 
-            bDef.position.x = preferences.getFloat("playerX", rect.getX() + rect.getWidth() / 2);
-            bDef.position.y = preferences.getFloat("playerY", rect.getY() + rect.getHeight() / 2);
+        body = world.createBody(bDef);
 
-            body = world.createBody(bDef);
+        shape.setRadius(16f);
 
-            shape.setRadius(16f);
+        fDef.shape = shape;
 
-            fDef.shape = shape;
-
-            body.createFixture(fDef);
-            body.setUserData("player");
-        }
+        body.createFixture(fDef);
+        body.setUserData("player");
     }
 
     @Override
