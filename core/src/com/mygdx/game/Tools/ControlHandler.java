@@ -22,6 +22,8 @@ public class ControlHandler implements ControllerListener {
 
     private static boolean gamepadUseKeyJustPressed = false;
     private static boolean gamepadPauseKeyJustPressed = false;
+    private static boolean gamepadUpKeyJustPressed = false;
+    private static boolean gamepadDownKeyJustPressed = false;
 
     public static void update() {
         if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY) || x != Gdx.input.getX() || y != Gdx.input.getY())
@@ -31,6 +33,8 @@ public class ControlHandler implements ControllerListener {
 
         gamepadUseKeyJustPressed = false;
         gamepadPauseKeyJustPressed = false;
+        gamepadUpKeyJustPressed = false;
+        gamepadDownKeyJustPressed = false;
     }
 
     public static Vector2 ctrl() {
@@ -94,7 +98,7 @@ public class ControlHandler implements ControllerListener {
             gamepadPauseKeyJustPressed = true;
         }
 
-        System.out.println(buttonCode);
+//        System.out.println(buttonCode);
         return false;
     }
 
@@ -128,7 +132,11 @@ public class ControlHandler implements ControllerListener {
 
     @Override
     public boolean povMoved(Controller controller, int povCode, PovDirection value) {
-        System.out.println(povCode + " " + value);
+        gamepad = true;
+        if (value == PovDirection.north)
+            gamepadUpKeyJustPressed = true;
+        if (value == PovDirection.south)
+            gamepadDownKeyJustPressed = true;
         return false;
     }
 
@@ -172,6 +180,34 @@ public class ControlHandler implements ControllerListener {
         }
         else {
             return Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE);
+        }
+    }
+
+    public static boolean upKeyJustPressed() {
+        if (gamepad) {
+            if (gamepadUpKeyJustPressed) {
+                gamepadUpKeyJustPressed = false;
+                return true;
+            }
+            else
+                return false;
+        }
+        else {
+            return Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W);
+        }
+    }
+
+    public static boolean downKeyJustPressed() {
+        if (gamepad) {
+            if (gamepadDownKeyJustPressed) {
+                gamepadDownKeyJustPressed = false;
+                return true;
+            }
+            else
+                return false;
+        }
+        else {
+            return Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S);
         }
     }
 }
