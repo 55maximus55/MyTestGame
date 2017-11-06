@@ -40,7 +40,6 @@ public class TDScene extends TopDownScene {
         mapRenderer.render();
 
         float a = body.getAngle() * MathUtils.radiansToDegrees + 22.5f;
-        System.out.println(a);
         if (a > 0f) {
             textureRegion.setRegion((int)(a / 45f) * 16, 0, 16, 48);
         }

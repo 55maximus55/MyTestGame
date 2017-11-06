@@ -123,9 +123,6 @@ public class ControlHandler implements ControllerListener {
 //        if (value <= -0.8) {
 //            System.out.println(axisCode + " " + "-1");
 //        }
-        if (axisCode == 4) {
-            System.out.println(value);
-        }
         return false;
     }
 
