@@ -3,6 +3,7 @@ package com.mygdx.game.Screens
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.mygdx.game.MyGdxGame
+import com.mygdx.game.Scenes.IScene
 import com.mygdx.game.Scenes.Scene
 import com.mygdx.game.Scenes.TDScene
 import com.mygdx.game.Scenes.TDScene1
@@ -19,6 +20,8 @@ class GameScreen(private val game: MyGdxGame, private val save: Int) : Screen {
             scene = TDScene(save, this)
         else if (s == "topdown1")
             scene = TDScene1(save, this)
+
+//        scene = IScene(1, this)
     }
 
     override fun render(delta: Float) {

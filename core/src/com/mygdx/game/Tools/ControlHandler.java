@@ -93,6 +93,8 @@ public class ControlHandler implements ControllerListener {
         if (buttonCode == 7) {
             gamepadPauseKeyJustPressed = true;
         }
+
+        System.out.println(buttonCode);
         return false;
     }
 
@@ -114,11 +116,22 @@ public class ControlHandler implements ControllerListener {
 
         if (lStick.len() >= STICK_DEATH_ZONE || rStick.len() >= STICK_DEATH_ZONE)
             gamepad = true;
+
+//        if (value >= 0.8) {
+//            System.out.println(axisCode + " " + "+1");
+//        }
+//        if (value <= -0.8) {
+//            System.out.println(axisCode + " " + "-1");
+//        }
+        if (axisCode == 4) {
+            System.out.println(value);
+        }
         return false;
     }
 
     @Override
     public boolean povMoved(Controller controller, int povCode, PovDirection value) {
+        System.out.println(povCode + " " + value);
         return false;
     }
 
@@ -139,7 +152,12 @@ public class ControlHandler implements ControllerListener {
 
     public static boolean useKeyJustPressed() {
         if (gamepad) {
-            return gamepadUseKeyJustPressed;
+            if (gamepadUseKeyJustPressed) {
+                gamepadUseKeyJustPressed = false;
+                return true;
+            }
+            else
+                return false;
         }
         else {
             return Gdx.input.isKeyJustPressed(Input.Keys.ENTER);
@@ -148,7 +166,12 @@ public class ControlHandler implements ControllerListener {
 
     public static boolean pauseKeyJustPressed() {
         if (gamepad) {
-            return gamepadPauseKeyJustPressed;
+            if (gamepadPauseKeyJustPressed) {
+                gamepadPauseKeyJustPressed = false;
+                return true;
+            }
+            else
+                return false;
         }
         else {
             return Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE);

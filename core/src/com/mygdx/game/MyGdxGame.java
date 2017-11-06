@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
+import com.mygdx.game.Screens.GameScreen;
 import com.mygdx.game.Screens.MainMenuScreen;
 import com.mygdx.game.Tools.ControlHandler;
 
