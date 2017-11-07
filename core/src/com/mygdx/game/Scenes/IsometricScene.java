@@ -42,14 +42,20 @@ public class IsometricScene extends Scene {
 
     @Override
     public void update() {
-//        camera.position.x = body.getPosition().x;
-//        camera.position.y = body.getPosition().y;
+        float cx = body.getPosition().x;
+        float cy = body.getPosition().y;
+
+        float bx = cx - 2 * cy + 32;
+        float by = cy + cx / 2 - 16;
+
+        camera.position.x = bx;
+        camera.position.y = by;
         camera.update();
 
         mapRenderer.setView(camera);
 //        body.linearVelocity = ControlHandler.ctrl(ControlHandler()).scl(3000f)
-//        body.setTransform(body.getPosition().add(ControlHandler.ctrl().scl(3.8f)), ControlHandler.dir());
-//        world.step(Gdx.graphics.getDeltaTime(), 10, 10);
+        body.setTransform(body.getPosition().add(ControlHandler.ctrl().scl(2, 1)), ControlHandler.dir());
+        world.step(Gdx.graphics.getDeltaTime(), 10, 10);
     }
 
     @Override

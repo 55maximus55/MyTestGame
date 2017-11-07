@@ -16,12 +16,12 @@ class GameScreen(private val game: MyGdxGame, private val save: Int) : Screen {
     override fun show() {
         val preferences = Gdx.app.getPreferences("Save" + save)
         val s = preferences.getString("scene", "topdown")
-        if (s == "topdown")
-            scene = TDScene(save, this)
-        else if (s == "topdown1")
-            scene = TDScene1(save, this)
+//        if (s == "topdown")
+//            scene = TDScene(save, this)
+//        else if (s == "topdown1")
+//            scene = TDScene1(save, this)
 
-//        scene = IScene(1, this)
+        scene = IScene(1, this)
     }
 
     override fun render(delta: Float) {
