@@ -7,6 +7,7 @@ import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.SharedLibraryLoader;
 
 public class ControlHandler implements ControllerListener {
     public static final float STICK_DEATH_ZONE = 0.25f;
@@ -39,8 +40,8 @@ public class ControlHandler implements ControllerListener {
 
         gamepadUpKeyJustPressed = false;
         gamepadDownKeyJustPressed = false;
-        boolean gamepadLeftKeyJustPressed = false;
-        boolean gamepadRightKeyJustPressed = false;
+        gamepadLeftKeyJustPressed = false;
+        gamepadRightKeyJustPressed = false;
     }
 
     public static Vector2 ctrl() {
@@ -104,35 +105,45 @@ public class ControlHandler implements ControllerListener {
             gamepadPauseKeyJustPressed = true;
         }
 
-//        System.out.println(buttonCode);
+        System.out.println(buttonCode);
         return false;
     }
 
     @Override
     public boolean axisMoved(Controller controller, int axisCode, float value) {
-        if (axisCode == 1) {
-            lStick.x = value;
-        }
-        if (axisCode == 0) {
-            lStick.y = -value;
-        }
+        if (SharedLibraryLoader.isWindows) {
+            if (axisCode == 1)
+                lStick.x = value;
+            if (axisCode == 0)
+                lStick.y = -value;
 
-        if (axisCode == 3) {
-            rStick.x = value;
+            if (axisCode == 3)
+                rStick.x = value;
+            if (axisCode == 2)
+                rStick.y = -value;
         }
-        if (axisCode == 2) {
-            rStick.y = -value;
+        else if (SharedLibraryLoader.isLinux) {
+            if (axisCode == 0)
+                lStick.x = value;
+            if (axisCode == 1)
+                lStick.y = -value;
+
+            if (axisCode == 3)
+                rStick.x = value;
+            if (axisCode == 4)
+                rStick.y = -value;
+
         }
 
         if (lStick.len() >= STICK_DEATH_ZONE || rStick.len() >= STICK_DEATH_ZONE)
             gamepad = true;
 
-//        if (value >= 0.8) {
-//            System.out.println(axisCode + " " + "+1");
-//        }
-//        if (value <= -0.8) {
-//            System.out.println(axisCode + " " + "-1");
-//        }
+        if (value >= 0.8) {
+            System.out.println(axisCode + " " + "+1");
+        }
+        if (value <= -0.8) {
+            System.out.println(axisCode + " " + "-1");
+        }
         return false;
     }
 
@@ -147,7 +158,7 @@ public class ControlHandler implements ControllerListener {
             gamepadLeftKeyJustPressed = true;
         if (value == PovDirection.east)
             gamepadRightKeyJustPressed = true;
-//        System.out.println(value);
+        System.out.println(value);
         return false;
     }
 

@@ -1,11 +1,11 @@
 package com.mygdx.game.Scenes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Screens.GameScreen;
 import com.mygdx.game.Tools.ContactHandler;
 import com.mygdx.game.Tools.ControlHandler;
@@ -33,7 +33,24 @@ public class IsometricScene extends Scene {
     }
 
     private void createWalls() {
+        BodyDef bDef = new BodyDef();
+        PolygonShape shape = new PolygonShape();
+        FixtureDef fDef = new FixtureDef();
+        Body body;
 
+        for (Object object : map.getLayers().get("walls").getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            bDef.type = BodyDef.BodyType.StaticBody;
+            bDef.position.set(rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight() / 2);
+
+            body = world.createBody(bDef);
+
+            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
+            fDef.shape = shape;
+            body.createFixture(fDef);
+            body.setUserData("wall");
+        }
     }
 
     private void createLocations() {
@@ -42,8 +59,8 @@ public class IsometricScene extends Scene {
 
     @Override
     public void update() {
-        float cx = body.getPosition().x;
-        float cy = body.getPosition().y;
+        float cx = body.getPosition().y;
+        float cy = body.getPosition().x;
 
         float bx = cx - 2 * cy + 32;
         float by = cy + cx / 2 - 16;
@@ -54,7 +71,7 @@ public class IsometricScene extends Scene {
 
         mapRenderer.setView(camera);
 //        body.linearVelocity = ControlHandler.ctrl(ControlHandler()).scl(3000f)
-        body.setTransform(body.getPosition().add(ControlHandler.ctrl().scl(2, 1)), ControlHandler.dir());
+        body.setTransform(body.getPosition().add(ControlHandler.ctrl().setAngle(ControlHandler.ctrl().angle()).scl(-1, 2)), ControlHandler.dir());
         world.step(Gdx.graphics.getDeltaTime(), 10, 10);
     }
 

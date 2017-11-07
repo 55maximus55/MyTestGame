@@ -37,7 +37,7 @@ public class IScene extends IsometricScene {
 
         body = world.createBody(bDef);
 
-        shape.setRadius(16f);
+        shape.setRadius(12f);
 
         fDef.shape = shape;
 

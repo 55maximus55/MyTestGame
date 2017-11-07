@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.Screens.GameScreen;
+import com.mygdx.game.Tools.ContactHandler;
 
 public class TDScene1 extends TopDownScene {
     public TDScene1(int save, GameScreen screen) {
@@ -58,12 +59,23 @@ public class TDScene1 extends TopDownScene {
     public void dispose() {
         super.dispose();
         mapRenderer.dispose();
-
         save(save);
     }
 
     @Override
     public Scene getNewScene() {
+        if (ContactHandler.location.equals("location topdown 128 550")) {
+            Preferences preferences = Gdx.app.getPreferences("Save" + save + "_" + "topdown");
+            preferences.putFloat("playerX", 128f);
+            preferences.putFloat("playerY", 550f);
+            preferences.flush();
+
+            preferences = Gdx.app.getPreferences("Save" + save);
+            preferences.putString("scene", "topdown");
+            preferences.flush();
+
+            return new TDScene(save, screen);
+        }
         return null;
     }
 }
