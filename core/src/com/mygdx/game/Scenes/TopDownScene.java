@@ -10,7 +10,7 @@ import com.mygdx.game.Screens.GameScreen;
 import com.mygdx.game.Tools.ContactHandler;
 import com.mygdx.game.Tools.ControlHandler;
 
-public abstract class TopDownScene extends Scene {
+public class TopDownScene extends Scene {
     World world;
     Body body;
 
