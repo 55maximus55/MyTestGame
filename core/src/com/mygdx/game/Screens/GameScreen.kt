@@ -20,8 +20,8 @@ class GameScreen(private val game: MyGdxGame, private val save: Int) : Screen {
             scene = TDScene(save, this)
         else if (s == "topdown1")
             scene = TDScene1(save, this)
-
-//        scene = IScene(1, this)
+        else if (s == "isometric")
+            scene = IScene(1, this)
     }
 
     override fun render(delta: Float) {
@@ -38,6 +38,8 @@ class GameScreen(private val game: MyGdxGame, private val save: Int) : Screen {
         if (ControlHandler.pauseKeyJustPressed()) {
             game.screen = MainMenuScreen(game)
         }
+
+        println(ContactHandler.location)
     }
 
     override fun resize(width: Int, height: Int) {

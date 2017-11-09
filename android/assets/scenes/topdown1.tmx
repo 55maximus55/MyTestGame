@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="2">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="3">
  <tileset firstgid="1" source="1.tsx"/>
  <layer name="Слой тайлов 1" width="32" height="32">
   <data encoding="csv">
@@ -38,5 +38,7 @@
 </data>
  </layer>
  <objectgroup name="walls"/>
- <objectgroup name="location"/>
+ <objectgroup name="location">
+  <object id="2" name="location isometric 240 -570" x="288" y="256" width="320" height="224"/>
+ </objectgroup>
 </map>

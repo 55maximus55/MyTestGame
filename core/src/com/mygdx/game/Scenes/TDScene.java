@@ -69,17 +69,17 @@ public class TDScene extends TopDownScene {
 
     @Override
     public Scene getNewScene() {
-        if (ContactHandler.location.equals("location topdown1 128 128")) {
-            Preferences preferences = Gdx.app.getPreferences("Save" + save + "_" + "topdown1");
-            preferences.putFloat("playerX", 128f);
-            preferences.putFloat("playerY", 128f);
+        if (ContactHandler.location.equals("location isometric 240 -440")) {
+            Preferences preferences = Gdx.app.getPreferences("Save" + save + "_" + "isometric");
+            preferences.putFloat("playerX", 240f);
+            preferences.putFloat("playerY", -440f);
             preferences.flush();
 
             preferences = Gdx.app.getPreferences("Save" + save);
-            preferences.putString("scene", "topdown1");
+            preferences.putString("scene", "isometric");
             preferences.flush();
 
-            return new TDScene1(save, screen);
+            return new IScene(save, screen);
         }
         return null;
     }

@@ -42,11 +42,11 @@ public class IsometricScene extends Scene {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bDef.type = BodyDef.BodyType.StaticBody;
-            bDef.position.set(rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight() / 2);
+            bDef.position.set(rect.getY() + rect.getHeight() / 2, - rect.getX() - rect.getWidth() / 2);
 
             body = world.createBody(bDef);
 
-            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
+            shape.setAsBox(rect.getHeight() / 2, rect.getWidth() / 2);
             fDef.shape = shape;
             body.createFixture(fDef);
             body.setUserData("wall");
@@ -54,24 +54,41 @@ public class IsometricScene extends Scene {
     }
 
     private void createLocations() {
+        BodyDef bDef = new BodyDef();
+        PolygonShape shape = new PolygonShape();
+        FixtureDef fDef = new FixtureDef();
+        Body body;
 
+        for (Object object : map.getLayers().get("location").getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            bDef.type = BodyDef.BodyType.StaticBody;
+            bDef.position.set(rect.getY() + rect.getHeight() / 2, - rect.getX() - rect.getWidth() / 2);
+
+            body = world.createBody(bDef);
+
+            shape.setAsBox(rect.getHeight() / 2, rect.getWidth() / 2);
+            fDef.shape = shape;
+            body.createFixture(fDef);
+            body.setUserData(((RectangleMapObject)object).getName());
+        }
     }
 
     @Override
     public void update() {
-        float cx = body.getPosition().y;
-        float cy = body.getPosition().x;
+        float cx = body.getPosition().x;
+        float cy = body.getPosition().y / 2;
 
-        float bx = cx - 2 * cy + 32;
-        float by = cy + cx / 2 - 16;
+        float bx = cx - 2 * cy;
+        float by = cy + cx / 2;
 
         camera.position.x = bx;
-        camera.position.y = by;
+        camera.position.y = by + 16;
         camera.update();
 
         mapRenderer.setView(camera);
 //        body.linearVelocity = ControlHandler.ctrl(ControlHandler()).scl(3000f)
-        body.setTransform(body.getPosition().add(ControlHandler.ctrl().setAngle(ControlHandler.ctrl().angle()).scl(-1, 2)), ControlHandler.dir());
+        body.setTransform(body.getPosition().add(ControlHandler.ctrl().rotate(-45).scl(2)), ControlHandler.dir());
         world.step(Gdx.graphics.getDeltaTime(), 10, 10);
     }
 
