@@ -8,7 +8,7 @@ import com.mygdx.game.Tools.ContactHandler;
 
 public class TDScene1 extends TopDownScene {
     public TDScene1(int save, GameScreen screen) {
-        super(save, screen);
+        super(screen);
         name = "topdown1";
         loadMap();
 
@@ -74,7 +74,7 @@ public class TDScene1 extends TopDownScene {
             preferences.putString("scene", "isometric");
             preferences.flush();
 
-            return new IScene(save, screen);
+            return new IScene(screen);
         }
         return null;
     }

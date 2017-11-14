@@ -17,8 +17,8 @@ public class TopDownScene extends Scene {
     OrthogonalTiledMapRenderer mapRenderer;
     Box2DDebugRenderer debugRenderer;
 
-    public TopDownScene(int save, GameScreen screen) {
-        super(save, screen);
+    public TopDownScene(GameScreen screen) {
+        super(screen);
         world = new World(new Vector2(0f, 0f), false);
         world.setContactListener(new ContactHandler());
         debugRenderer = new Box2DDebugRenderer();

@@ -17,8 +17,8 @@ public class IsometricScene extends Scene {
     IsometricTiledMapRenderer mapRenderer;
     Box2DDebugRenderer debugRenderer;
 
-    public IsometricScene(int save, GameScreen screen) {
-        super(save, screen);
+    public IsometricScene(GameScreen screen) {
+        super(screen);
         world = new World(new Vector2(0, 0), false);
         world.setContactListener(new ContactHandler());
         debugRenderer = new Box2DDebugRenderer();

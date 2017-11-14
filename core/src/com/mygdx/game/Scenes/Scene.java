@@ -15,8 +15,8 @@ public abstract class Scene implements Disposable {
 
     public OrthographicCamera camera;
 
-    public Scene(int save, GameScreen screen) {
-        this.save = save;
+    public Scene(GameScreen screen) {
+        this.save = screen.getSave();
         this.screen = screen;
 
         camera = new OrthographicCamera();

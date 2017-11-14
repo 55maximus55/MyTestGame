@@ -18,8 +18,8 @@ public class IScene extends IsometricScene {
 
     SpriteBatch batch = new SpriteBatch();
 
-    public IScene(int save, GameScreen screen) {
-        super(save, screen);
+    public IScene(GameScreen screen) {
+        super(screen);
         name = "isometric";
         loadMap();
         loadSave();
@@ -85,7 +85,7 @@ public class IScene extends IsometricScene {
             preferences.putString("scene", "topdown");
             preferences.flush();
 
-            return new TDScene(save, screen);
+            return new TDScene(screen);
         }
         if (ContactHandler.location.equals("location topdown1 128 128")) {
             Preferences preferences = Gdx.app.getPreferences("Save" + save + "_" + "topdown1");
